@@ -1,9 +1,7 @@
 package agh.cs.Animals;
 
-import org.jline.reader.Completer;
 import org.jline.reader.LineReader;
 import org.jline.reader.LineReaderBuilder;
-import org.jline.reader.impl.completer.StringsCompleter;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 
@@ -18,7 +16,6 @@ public class TerminalHandler {
 
         terminal = TerminalBuilder
                 .builder()
-                .system(true)
                 .build();
 
         LineReaderBuilder builder = LineReaderBuilder.builder()
