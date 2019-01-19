@@ -8,6 +8,8 @@ public class Animal implements IMapElement {
 
     private int energy;
 
+    private boolean isAlive;
+
     public Animal(MapPosition bornPosition, List<Integer> inheritedGenes){
         position = bornPosition;
 
@@ -15,6 +17,27 @@ public class Animal implements IMapElement {
         genes.addAll(inheritedGenes);
 
         energy = 100;
+
+        isAlive = true;
+    }
+
+    public void moveTo(MapPosition newPosition){
+        energy -= 5;
+
+        if(energy < 0)
+            isAlive = false;
+
+        this.position = newPosition;
+    }
+
+    public void eat(){
+        energy += 50;
+        if(energy > 100)
+            energy = 100;
+    }
+
+    public Animal reproduce(Animal partner){
+        return null;
     }
 
     public MapPosition getPosition() {
@@ -25,12 +48,12 @@ public class Animal implements IMapElement {
         return genes;
     }
 
-    public void moveTo(MapPosition newPosition){
-        this.position = newPosition;
+    public boolean isAlive(){
+        return isAlive;
     }
 
     @Override
     public String toString(){
-        return "|A";
+        return "M";
     }
 }

@@ -54,8 +54,41 @@ public class WorldMap {
     }
 
     public void update() {
+        cleanDeadAnimals();
+
+        spawnGrass();
         for (Animal animal : animals) {
-            animal.moveTo(newAnimalPosition(animal.getPosition(), animal.getGenes()));
+            MapPosition targetPosition = newAnimalPosition(animal.getPosition(), animal.getGenes());
+            interaction(animal, targetPosition);
+            updateAnimalPosition(animal, targetPosition);
+        }
+    }
+
+    private void interaction(Animal animal, MapPosition targetPosition){
+        if(isOccupied(targetPosition)){
+            IMapElement targetElement = obstacles.get(targetPosition);
+            if(targetElement.getClass().equals(Grass.class)){
+                animal.eat();
+            }/*else if(targetElement.getClass().equals(Animal.class)){
+                animal.;
+            }*/
+        }
+    }
+
+    private void updateAnimalPosition(Animal animal, MapPosition targetPosition){
+        obstacles.remove(animal.getPosition());
+        animal.moveTo(targetPosition);
+        obstacles.put(animal.getPosition(), animal);
+    }
+
+    private void cleanDeadAnimals(){
+        Iterator<Animal> iterator = animals.iterator();
+        while (iterator.hasNext()){
+            Animal temporary = iterator.next();
+            if (!temporary.isAlive()){
+                obstacles.remove(temporary.getPosition());
+                iterator.remove();
+            }
         }
     }
 

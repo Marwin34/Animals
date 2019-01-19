@@ -12,6 +12,6 @@ public class Grass implements IMapElement{
 
     @Override
     public String toString(){
-        return "|$";
+        return "*";
     }
 }
