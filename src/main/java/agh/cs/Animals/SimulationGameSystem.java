@@ -1,24 +1,14 @@
 package agh.cs.Animals;
 
-import agh.cs.Animals.MapRepresenation.MapPosition;
-import agh.cs.Animals.MapRepresenation.WorldMap;
+import java.io.IOException;
 
 public class SimulationGameSystem {
     public static void main(String args[]) {
-        WorldMap map1 = new WorldMap(new MapPosition(0, 0), new MapPosition(30, 30),
-                new MapPosition(10, 10), new MapPosition(20, 20));
-
-        int passedDays = 0;
-
-        System.out.println(map1);
-
-        while(map1.getAnimals().size() > 0)
-        {
-            map1.update();
-            passedDays++;
+        try {
+            GameEngine main = new GameEngine();
+        }catch (IOException ex){
+            System.out.println("ERROR!!! " + ex.getMessage());
         }
 
-        System.out.println(map1);
-        System.out.println(passedDays);
     }
 }
