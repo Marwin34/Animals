@@ -20,5 +20,14 @@
         </plugins>
     </build>
 
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.jline/jline -->
+        <dependency>
+            <groupId>org.jline</groupId>
+            <artifactId>jline</artifactId>
+            <version>3.8.2</version>
+        </dependency>
+    </dependencies>
+
 
 </project>

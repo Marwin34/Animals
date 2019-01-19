@@ -1,3 +1,5 @@
+package agh.cs.Animals.MapRepresenation;
+
 public class MapPosition {
     private final int cordX, cordY;
 

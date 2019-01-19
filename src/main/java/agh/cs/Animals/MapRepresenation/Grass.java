@@ -1,3 +1,5 @@
+package agh.cs.Animals.MapRepresenation;
+
 public class Grass implements IMapElement{
     private final MapPosition position;
 

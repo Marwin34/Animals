@@ -1,3 +1,8 @@
+package agh.cs.Animals.MapRepresenation;
+
+import agh.cs.Animals.Utitlities.Losulosu;
+import agh.cs.Animals.Utitlities.MapVisualizer;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -10,6 +15,7 @@ public class WorldMap {
 
     private HashMap<MapPosition, IMapElement> obstacles;
     private List<Animal> animals;
+    private List<Animal> childrens;
     private final List<Integer> chances;
 
     public WorldMap(MapPosition bottomLeft, MapPosition topRight, MapPosition jungleBottomLeft, MapPosition jungleTopRight) {
@@ -21,6 +27,7 @@ public class WorldMap {
         obstacles = new HashMap<>();
         animals = new ArrayList<>();
         chances = new ArrayList<>();
+        childrens = new ArrayList<>();
 
         for (int x = bottomLeft.getCordX(); x <= topRight.getCordX(); ++x) {
             if (x < jungleBottomLeft.getCordX() || x > jungleTopRight.getCordX()) {
@@ -39,7 +46,7 @@ public class WorldMap {
         int newGrassX = Losulosu.getRandom(chances);
         int newGrassY = Losulosu.getRandom(chances);
 
-        obstacles.put(new MapPosition(newGrassX, newGrassY), new Grass(new MapPosition(newGrassX, newGrassY)));
+        obstacles.putIfAbsent(new MapPosition(newGrassX, newGrassY), new Grass(new MapPosition(newGrassX, newGrassY)));
     }
 
     private void spawnAdams() {
@@ -62,17 +69,30 @@ public class WorldMap {
             interaction(animal, targetPosition);
             updateAnimalPosition(animal, targetPosition);
         }
+        spotChildren();
     }
 
     private void interaction(Animal animal, MapPosition targetPosition){
         if(isOccupied(targetPosition)){
             IMapElement targetElement = obstacles.get(targetPosition);
-            if(targetElement.getClass().equals(Grass.class)){
+            if(targetElement instanceof Grass){
                 animal.eat();
-            }/*else if(targetElement.getClass().equals(Animal.class)){
-                animal.;
-            }*/
+                obstacles.remove(targetPosition);
+            }else if(targetElement instanceof Animal){
+                if(animal.isAbleToReproduce()){
+                    Animal children = animal.reproduce((Animal) targetElement); // WE CAN DO THAT BECAUSE WE CHECK CLASS EARLIER
+                    childrens.add(children);
+                }
+            }
         }
+    }
+
+    private void spotChildren(){
+        for(Animal child : childrens){
+            obstacles.put(child.getPosition(), child);
+            animals.add(child);
+        }
+        childrens.clear();
     }
 
     private void updateAnimalPosition(Animal animal, MapPosition targetPosition){

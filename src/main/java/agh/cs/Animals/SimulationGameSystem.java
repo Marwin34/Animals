@@ -1,3 +1,8 @@
+package agh.cs.Animals;
+
+import agh.cs.Animals.MapRepresenation.MapPosition;
+import agh.cs.Animals.MapRepresenation.WorldMap;
+
 public class SimulationGameSystem {
     public static void main(String args[]) {
         WorldMap map1 = new WorldMap(new MapPosition(0, 0), new MapPosition(30, 30),

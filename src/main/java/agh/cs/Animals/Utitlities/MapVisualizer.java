@@ -1,3 +1,8 @@
+package agh.cs.Animals.Utitlities;
+
+import agh.cs.Animals.MapRepresenation.MapPosition;
+import agh.cs.Animals.MapRepresenation.WorldMap;
+
 import java.util.HashMap;
 
 public class MapVisualizer {
