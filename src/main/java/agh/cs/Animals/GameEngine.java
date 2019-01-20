@@ -35,8 +35,8 @@ public class GameEngine{
             }
             deltaTime = System.currentTimeMillis() - deltaTime;
 
-            if(deltaTime < 250){
-                Thread.sleep(250 - deltaTime);
+            if(deltaTime < 200){
+                Thread.sleep(200 - deltaTime);
             }
         }
     }

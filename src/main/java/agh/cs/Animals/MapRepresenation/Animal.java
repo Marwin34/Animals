@@ -24,7 +24,7 @@ public class Animal implements IMapElement {
     }
 
     public void moveTo(MapPosition newPosition) {
-        energy -= 3;
+        energy -= 5;
 
         this.position = newPosition;
     }

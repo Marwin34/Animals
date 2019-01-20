@@ -34,7 +34,7 @@ public class WorldMap {
             if (x < jungleBottomLeft.getCordX() || x > jungleTopRight.getCordX()) {
                 chancesX.add(1);
             } else {
-                chancesX.add(5);
+                chancesX.add(8);
             }
         }
 
@@ -42,7 +42,7 @@ public class WorldMap {
             if (y < jungleBottomLeft.getCordY() || y > jungleTopRight.getCordY()) {
                 chancesY.add(1);
             } else {
-                chancesY.add(4);
+                chancesY.add(8);
             }
         }
 
@@ -52,7 +52,7 @@ public class WorldMap {
     }
 
     private void spawnGrass() {
-        for(int i = 0; i < 3; i++){
+        for(int i = 0; i < 2; i++){
             int newGrassX = Losulosu.getRandom(chancesX);
             int newGrassY = Losulosu.getRandom(chancesY);
 
