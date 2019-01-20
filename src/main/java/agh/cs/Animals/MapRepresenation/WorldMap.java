@@ -42,7 +42,7 @@ public class WorldMap {
             if (y < jungleBottomLeft.getCordY() || y > jungleTopRight.getCordY()) {
                 chancesY.add(1);
             } else {
-                chancesY.add(5);
+                chancesY.add(4);
             }
         }
 
@@ -52,7 +52,7 @@ public class WorldMap {
     }
 
     private void spawnGrass() {
-        for(int i = 0; i < 2; i++){
+        for(int i = 0; i < 3; i++){
             int newGrassX = Losulosu.getRandom(chancesX);
             int newGrassY = Losulosu.getRandom(chancesY);
 
@@ -62,11 +62,17 @@ public class WorldMap {
 
     private void spawnAdams() {
         animals.add(new Animal(new MapPosition(55, 20), Arrays.asList(1, 1, 1, 1, 1, 1, 1, 1)));
-        animals.add(new Animal(new MapPosition(7, 5), Arrays.asList(10, 1, 1, 1, 1, 1, 1, 1)));
-        animals.add(new Animal(new MapPosition(35, 15), Arrays.asList(1, 10, 1, 1, 1, 1, 1, 1)));
-        animals.add(new Animal(new MapPosition(25, 14), Arrays.asList(1, 1, 1, 10, 1, 1, 1, 1)));
-        animals.add(new Animal(new MapPosition(9, 13), Arrays.asList(1, 1, 1, 1, 1, 10, 1, 1)));
-        animals.add(new Animal(new MapPosition(3, 12), Arrays.asList(1, 1, 5, 1, 1, 7, 1, 1)));
+        animals.add(new Animal(new MapPosition(7, 5), Arrays.asList(11, 1, 1, 1, 1, 1, 1, 1)));
+        animals.add(new Animal(new MapPosition(35, 15), Arrays.asList(1, 5, 1, 6, 1, 6, 1, 1)));
+        animals.add(new Animal(new MapPosition(25, 14), Arrays.asList(1, 3, 1, 7, 1, 1, 8, 1)));
+        animals.add(new Animal(new MapPosition(9, 13), Arrays.asList(1, 1, 4, 1, 1, 11, 1, 1)));
+        animals.add(new Animal(new MapPosition(3, 12), Arrays.asList(1, 1, 7, 1, 1, 11, 1, 1)));
+        animals.add(new Animal(new MapPosition(51, 20), Arrays.asList(1, 1, 1, 2, 1, 4, 1, 1)));
+        animals.add(new Animal(new MapPosition(16, 5), Arrays.asList(11, 3, 1, 6, 1, 6, 1, 1)));
+        animals.add(new Animal(new MapPosition(24, 18), Arrays.asList(1, 11, 1, 1, 1, 6, 1, 1)));
+        animals.add(new Animal(new MapPosition(27, 14), Arrays.asList(1, 6, 1, 11, 1, 1, 7, 1)));
+        animals.add(new Animal(new MapPosition(30, 21), Arrays.asList(1, 1, 1, 9, 1, 11, 1, 1)));
+        animals.add(new Animal(new MapPosition(4, 12), Arrays.asList(1, 1, 7, 1, 1, 11, 1, 1)));
 
         obstacles.putAll(animals.stream().collect(Collectors.toMap(Animal::getPosition, animal -> animal)));
     }
@@ -96,6 +102,12 @@ public class WorldMap {
                     Animal children = animal.reproduce((Animal) targetElement); // WE CAN DO THAT BECAUSE WE CHECK CLASS EARLIER
                     childrens.add(children);
                 }
+            }
+        }
+        else{
+            if(animal.canReproduceWithoutPartner()){
+                Animal children = animal.reproduceWithoutPartner();
+                childrens.add(children);
             }
         }
     }
@@ -128,12 +140,15 @@ public class WorldMap {
     private MapPosition newAnimalPosition(MapPosition currentPosition, List<Integer> directionChances) {
         int[] diffX = {-1, 0, 1, 1, 1, 0, -1, -1};
         int[] diffY = {1, 1, 1, 0, -1, -1, -1, 0};
-        MapPosition newPosition;
-        int direction;
-        do {
-            direction = Losulosu.getRandom(directionChances);
+
+        int direction = Losulosu.getRandom(directionChances);
+        MapPosition newPosition = currentPosition.addVector(diffX[direction], diffY[direction]);
+
+        if(!inMap(newPosition)){
+            direction = (direction + 4) % 8;
             newPosition = currentPosition.addVector(diffX[direction], diffY[direction]);
-        } while (!inMap(newPosition));
+        }
+
         return newPosition;
     }
 

@@ -5,6 +5,7 @@ import agh.cs.Animals.Utitlities.Losulosu;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public class Animal implements IMapElement {
     private final List<Integer> genes;
@@ -23,21 +24,27 @@ public class Animal implements IMapElement {
     }
 
     public void moveTo(MapPosition newPosition) {
-        energy -= 5;
+        energy -= 3;
 
         this.position = newPosition;
     }
 
     public void eat() {
-        energy += 50;
+        energy += 20;
         if (energy > 100)
             energy = 100;
     }
 
     public Animal reproduce(Animal partner) {
-        energy -= 55;
-
+        energy -= 60;
         return new Animal(position, combineGenes(partner.genes));
+    }
+
+    public Animal reproduceWithoutPartner(){
+        energy -= 80;
+        List<Integer> childGenes = new ArrayList<>(genes);
+        addMutation(childGenes);
+        return new Animal(position, childGenes);
     }
 
     private List<Integer> combineGenes(List<Integer> inputGenes) {
@@ -60,7 +67,14 @@ public class Animal implements IMapElement {
             newGenes.set(i, inputGenes.get(i));
         }
 
+        addMutation(newGenes);
+
         return newGenes;
+    }
+
+    private void addMutation(List<Integer> genes){
+        Random rand = new Random();
+        genes.set(rand.nextInt(genes.size() - 1), rand.nextInt(11));
     }
 
     public MapPosition getPosition() {
@@ -76,7 +90,11 @@ public class Animal implements IMapElement {
     }
 
     public boolean isAbleToReproduce() {
-        return energy >= 55;
+        return energy >= 60;
+    }
+
+    public boolean canReproduceWithoutPartner(){
+        return energy >= 80;
     }
 
     @Override
