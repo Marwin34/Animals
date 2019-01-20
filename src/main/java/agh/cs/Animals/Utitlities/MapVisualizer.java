@@ -25,4 +25,7 @@ public class MapVisualizer {
             }
         }
     }
+
+    public static void hideCursor() {	System.out.print("\u001b[?25l");	}
+    public static void showCursor() {	System.out.print("\u001b[?25h");	}
 }

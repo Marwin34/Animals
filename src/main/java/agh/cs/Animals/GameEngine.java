@@ -5,6 +5,7 @@ import agh.cs.Animals.MapRepresenation.WorldMap;
 import agh.cs.Animals.Utitlities.MapVisualizer;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -25,6 +26,7 @@ public class GameEngine {
         executorService.scheduleAtFixedRate(this::update, 0, 1, TimeUnit.SECONDS);
 
         passedDays = 0;
+        MapVisualizer.hideCursor();
     }
 
     public void run() {
@@ -38,6 +40,7 @@ public class GameEngine {
             MapVisualizer.drawInTerminal(mainMap);
         }else {
             System.out.print(passedDays);
+            MapVisualizer.showCursor();
             System.exit(1);
         }
     }
