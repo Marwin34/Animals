@@ -1,7 +1,6 @@
 package agh.cs.Animals.MapRepresenation;
 
 import agh.cs.Animals.Utitlities.Losulosu;
-import agh.cs.Animals.Utitlities.MapVisualizer;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -16,7 +15,8 @@ public class WorldMap {
     private HashMap<MapPosition, IMapElement> obstacles;
     private List<Animal> animals;
     private List<Animal> childrens;
-    private final List<Integer> chances;
+    private final List<Integer> chancesX;
+    private final List<Integer> chancesY;
 
     public WorldMap(MapPosition bottomLeft, MapPosition topRight, MapPosition jungleBottomLeft, MapPosition jungleTopRight) {
         this.bottomLeft = bottomLeft;
@@ -26,14 +26,23 @@ public class WorldMap {
 
         obstacles = new HashMap<>();
         animals = new ArrayList<>();
-        chances = new ArrayList<>();
+        chancesX = new ArrayList<>();
+        chancesY = new ArrayList<>();
         childrens = new ArrayList<>();
 
         for (int x = bottomLeft.getCordX(); x <= topRight.getCordX(); ++x) {
             if (x < jungleBottomLeft.getCordX() || x > jungleTopRight.getCordX()) {
-                chances.add(1);
+                chancesX.add(1);
             } else {
-                chances.add(7);
+                chancesX.add(5);
+            }
+        }
+
+        for (int y = bottomLeft.getCordY(); y <= topRight.getCordY(); ++y) {
+            if (y < jungleBottomLeft.getCordY() || y > jungleTopRight.getCordY()) {
+                chancesY.add(1);
+            } else {
+                chancesY.add(5);
             }
         }
 
@@ -43,19 +52,21 @@ public class WorldMap {
     }
 
     private void spawnGrass() {
-        int newGrassX = Losulosu.getRandom(chances);
-        int newGrassY = Losulosu.getRandom(chances);
+        for(int i = 0; i < 2; i++){
+            int newGrassX = Losulosu.getRandom(chancesX);
+            int newGrassY = Losulosu.getRandom(chancesY);
 
-        obstacles.putIfAbsent(new MapPosition(newGrassX, newGrassY), new Grass(new MapPosition(newGrassX, newGrassY)));
+            obstacles.putIfAbsent(new MapPosition(newGrassX, newGrassY), new Grass(new MapPosition(newGrassX, newGrassY)));
+        }
     }
 
     private void spawnAdams() {
-        animals.add(new Animal(new MapPosition(5, 5), Arrays.asList(1, 1, 1, 1, 1, 1, 1, 1)));
+        animals.add(new Animal(new MapPosition(5, 55), Arrays.asList(1, 1, 1, 1, 1, 1, 1, 1)));
         animals.add(new Animal(new MapPosition(7, 5), Arrays.asList(10, 1, 1, 1, 1, 1, 1, 1)));
-        animals.add(new Animal(new MapPosition(5, 7), Arrays.asList(1, 10, 1, 1, 1, 1, 1, 1)));
-        animals.add(new Animal(new MapPosition(5, 9), Arrays.asList(1, 1, 1, 10, 1, 1, 1, 1)));
-        animals.add(new Animal(new MapPosition(9, 5), Arrays.asList(1, 1, 1, 1, 1, 10, 1, 1)));
-        animals.add(new Animal(new MapPosition(3, 3), Arrays.asList(1, 1, 5, 1, 1, 7, 1, 1)));
+        animals.add(new Animal(new MapPosition(5, 45), Arrays.asList(1, 10, 1, 1, 1, 1, 1, 1)));
+        animals.add(new Animal(new MapPosition(5, 39), Arrays.asList(1, 1, 1, 10, 1, 1, 1, 1)));
+        animals.add(new Animal(new MapPosition(9, 25), Arrays.asList(1, 1, 1, 1, 1, 10, 1, 1)));
+        animals.add(new Animal(new MapPosition(3, 13), Arrays.asList(1, 1, 5, 1, 1, 7, 1, 1)));
 
         obstacles.putAll(animals.stream().collect(Collectors.toMap(Animal::getPosition, animal -> animal)));
     }
@@ -131,11 +142,6 @@ public class WorldMap {
 
     private boolean isOccupied(MapPosition target) {
         return obstacles.containsKey(target);
-    }
-
-    @Override
-    public String toString() {
-        return MapVisualizer.visualize(this);
     }
 
     public MapPosition getBottomLeft() {

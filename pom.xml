@@ -14,12 +14,13 @@
     </properties>
 
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/org.jline/jline -->
+        <!-- https://mvnrepository.com/artifact/org.fusesource.jansi/jansi -->
         <dependency>
-            <groupId>org.jline</groupId>
-            <artifactId>jline</artifactId>
-            <version>3.8.2</version>
+            <groupId>org.fusesource.jansi</groupId>
+            <artifactId>jansi</artifactId>
+            <version>1.17</version>
         </dependency>
+
     </dependencies>
 
     <build>

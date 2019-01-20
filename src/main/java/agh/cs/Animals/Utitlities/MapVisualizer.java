@@ -5,12 +5,12 @@ import agh.cs.Animals.MapRepresenation.WorldMap;
 
 import java.util.HashMap;
 
+import static org.fusesource.jansi.Ansi.ansi;
+
 public class MapVisualizer {
-    public static String visualize(WorldMap map) {
+    public static void drawInTerminal(WorldMap map){
         MapPosition bottomLeft = map.getBottomLeft();
         MapPosition topRight = map.getTopRight();
-
-        StringBuilder bob = new StringBuilder();
 
         HashMap obstacles = map.getObstacles();
 
@@ -18,15 +18,11 @@ public class MapVisualizer {
             for (int x = bottomLeft.getCordX(); x <= topRight.getCordX(); x++) {
                 MapPosition current = new MapPosition(x, y);
                 if (obstacles.containsKey(current)) {
-                    bob.append(obstacles.get(current));
+                    System.out.print(ansi().cursor(x + 5,y + 5).a(obstacles.get(current).toString()));
                 } else {
-                    bob.append(" ");
+                    System.out.print(ansi().cursor(x + 5,y + 5).a(" "));
                 }
             }
-            bob.append(System.lineSeparator());
         }
-        bob.append(System.lineSeparator());
-
-        return bob.toString();
     }
 }
