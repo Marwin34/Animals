@@ -22,7 +22,7 @@ public class MapPosition {
 
     @Override
     public String toString(){
-        return "| |";
+        return String.format("(%s, %s)", cordX, cordY);
     }
 
     @Override

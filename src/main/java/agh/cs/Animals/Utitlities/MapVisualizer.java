@@ -18,14 +18,15 @@ public class MapVisualizer {
             for (int x = bottomLeft.getCordX(); x <= topRight.getCordX(); x++) {
                 MapPosition current = new MapPosition(x, y);
                 if (obstacles.containsKey(current)) {
-                    System.out.print(ansi().cursor(x + 5,y + 5).a(obstacles.get(current).toString()));
+                    System.out.print(ansi().cursor(y + 5,x + 5).a(obstacles.get(current).toString()));
                 } else {
-                    System.out.print(ansi().cursor(x + 5,y + 5).a(" "));
+                    System.out.print(ansi().cursor(y + 5,x + 5).a(" "));
                 }
             }
         }
     }
 
     public static void hideCursor() {	System.out.print("\u001b[?25l");	}
+
     public static void showCursor() {	System.out.print("\u001b[?25h");	}
 }

@@ -61,20 +61,22 @@ public class WorldMap {
     }
 
     private void spawnAdams() {
-        animals.add(new Animal(new MapPosition(5, 55), Arrays.asList(1, 1, 1, 1, 1, 1, 1, 1)));
+        animals.add(new Animal(new MapPosition(55, 20), Arrays.asList(1, 1, 1, 1, 1, 1, 1, 1)));
         animals.add(new Animal(new MapPosition(7, 5), Arrays.asList(10, 1, 1, 1, 1, 1, 1, 1)));
-        animals.add(new Animal(new MapPosition(5, 45), Arrays.asList(1, 10, 1, 1, 1, 1, 1, 1)));
-        animals.add(new Animal(new MapPosition(5, 39), Arrays.asList(1, 1, 1, 10, 1, 1, 1, 1)));
-        animals.add(new Animal(new MapPosition(9, 25), Arrays.asList(1, 1, 1, 1, 1, 10, 1, 1)));
-        animals.add(new Animal(new MapPosition(3, 13), Arrays.asList(1, 1, 5, 1, 1, 7, 1, 1)));
+        animals.add(new Animal(new MapPosition(35, 15), Arrays.asList(1, 10, 1, 1, 1, 1, 1, 1)));
+        animals.add(new Animal(new MapPosition(25, 14), Arrays.asList(1, 1, 1, 10, 1, 1, 1, 1)));
+        animals.add(new Animal(new MapPosition(9, 13), Arrays.asList(1, 1, 1, 1, 1, 10, 1, 1)));
+        animals.add(new Animal(new MapPosition(3, 12), Arrays.asList(1, 1, 5, 1, 1, 7, 1, 1)));
 
         obstacles.putAll(animals.stream().collect(Collectors.toMap(Animal::getPosition, animal -> animal)));
     }
 
     public void update() {
+
         cleanDeadAnimals();
 
         spawnGrass();
+
         for (Animal animal : animals) {
             MapPosition targetPosition = newAnimalPosition(animal.getPosition(), animal.getGenes());
             interaction(animal, targetPosition);
@@ -132,7 +134,6 @@ public class WorldMap {
             direction = Losulosu.getRandom(directionChances);
             newPosition = currentPosition.addVector(diffX[direction], diffY[direction]);
         } while (!inMap(newPosition));
-
         return newPosition;
     }
 

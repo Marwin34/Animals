@@ -4,29 +4,30 @@ import agh.cs.Animals.MapRepresenation.MapPosition;
 import agh.cs.Animals.MapRepresenation.WorldMap;
 import agh.cs.Animals.Utitlities.MapVisualizer;
 
-import java.io.IOException;
-import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import static org.fusesource.jansi.Ansi.ansi;
 
-public class GameEngine {
+
+public class GameEngine{
     private WorldMap mainMap;
 
-    private final ScheduledExecutorService executorService;
+    private int passedDays;
+    private int timeSpeed;
 
-    int passedDays;
 
-    public GameEngine() throws IOException {
-        mainMap = new WorldMap(new MapPosition(0, 0), new MapPosition(30, 60),
-                new MapPosition(10, 20), new MapPosition(20, 40));
+    public GameEngine() {
+        mainMap = new WorldMap(new MapPosition(0, 0), new MapPosition(60, 30),
+                new MapPosition(20, 10), new MapPosition(40, 20));
 
-        executorService = Executors.newSingleThreadScheduledExecutor();
+        ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
         executorService.scheduleAtFixedRate(this::update, 0, 1, TimeUnit.SECONDS);
 
         passedDays = 0;
         MapVisualizer.hideCursor();
+        timeSpeed = 1;
     }
 
     public void run() {
@@ -38,10 +39,16 @@ public class GameEngine {
             mainMap.update();
             passedDays++;
             MapVisualizer.drawInTerminal(mainMap);
+            displayInformation();
         }else {
-            System.out.print(passedDays);
+            System.out.println();
             MapVisualizer.showCursor();
             System.exit(1);
         }
+    }
+
+    private void displayInformation(){
+        System.out.print(ansi().cursor(mainMap.getTopRight().getCordY() + 10, 0).
+                a(String.format("%s %s | %s %s", "Dzień: ", passedDays, "Prędkość upływu czasu: x", timeSpeed)));
     }
 }
