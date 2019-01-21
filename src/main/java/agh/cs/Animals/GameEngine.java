@@ -24,7 +24,7 @@ public class GameEngine{
         while(true){
             long deltaTime = System.currentTimeMillis();
             if(mainMap.getAnimals().size() > 0){
-                mainMap.update();
+                mainMap.update(passedDays);
                 passedDays++;
                 MapVisualizer.drawInTerminal(mainMap);
                 displayInformation();
