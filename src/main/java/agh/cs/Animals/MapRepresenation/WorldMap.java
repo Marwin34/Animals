@@ -17,9 +17,7 @@ public class WorldMap {
     private List<Animal> childrens;
     private final List<Integer> chancesX;
     private final List<Integer> chancesY;
-
-    private int synchroziationDate;
-
+    
     public WorldMap(MapPosition bottomLeft, MapPosition topRight, MapPosition jungleBottomLeft, MapPosition jungleTopRight) {
         this.bottomLeft = bottomLeft;
         this.topRight = topRight;
@@ -51,7 +49,6 @@ public class WorldMap {
         for (int i = 0; i < 10; i++)
             spawnGrass();
         spawnAdams();
-        synchroziationDate = 0;
     }
 
     private void spawnGrass() {
@@ -64,24 +61,23 @@ public class WorldMap {
     }
 
     private void spawnAdams() {
-        animals.add(new Animal(new MapPosition(55, 20), Arrays.asList(1, 1, 1, 1, 1, 1, 1, 1), synchroziationDate));
-        animals.add(new Animal(new MapPosition(7, 5), Arrays.asList(11, 1, 1, 1, 1, 1, 1, 1), synchroziationDate));
-        animals.add(new Animal(new MapPosition(35, 15), Arrays.asList(1, 5, 1, 6, 1, 6, 1, 1), synchroziationDate));
-        animals.add(new Animal(new MapPosition(25, 14), Arrays.asList(1, 3, 1, 7, 1, 1, 8, 1), synchroziationDate));
-        animals.add(new Animal(new MapPosition(9, 13), Arrays.asList(1, 1, 4, 1, 1, 11, 1, 1), synchroziationDate));
-        animals.add(new Animal(new MapPosition(3, 12), Arrays.asList(1, 1, 7, 1, 1, 11, 1, 1), synchroziationDate));
-        animals.add(new Animal(new MapPosition(51, 20), Arrays.asList(1, 1, 1, 2, 1, 4, 1, 1), synchroziationDate));
-        animals.add(new Animal(new MapPosition(16, 5), Arrays.asList(11, 3, 1, 6, 1, 6, 1, 1), synchroziationDate));
-        animals.add(new Animal(new MapPosition(24, 18), Arrays.asList(1, 11, 1, 1, 1, 6, 1, 1), synchroziationDate));
-        animals.add(new Animal(new MapPosition(27, 14), Arrays.asList(1, 6, 1, 11, 1, 1, 7, 1), synchroziationDate));
-        animals.add(new Animal(new MapPosition(30, 21), Arrays.asList(1, 1, 1, 9, 1, 11, 1, 1), synchroziationDate));
-        animals.add(new Animal(new MapPosition(4, 12), Arrays.asList(1, 1, 7, 1, 1, 11, 1, 1), synchroziationDate));
+        animals.add(new Animal(new MapPosition(55, 20), Arrays.asList(1, 1, 1, 1, 1, 1, 1, 1)));
+        animals.add(new Animal(new MapPosition(7, 5), Arrays.asList(11, 1, 1, 1, 1, 1, 1, 1)));
+        animals.add(new Animal(new MapPosition(35, 15), Arrays.asList(1, 5, 1, 6, 1, 6, 1, 1)));
+        animals.add(new Animal(new MapPosition(25, 14), Arrays.asList(1, 3, 1, 7, 1, 1, 8, 1)));
+        animals.add(new Animal(new MapPosition(9, 13), Arrays.asList(1, 1, 4, 1, 1, 11, 1, 1)));
+        animals.add(new Animal(new MapPosition(3, 12), Arrays.asList(1, 1, 7, 1, 1, 11, 1, 1)));
+        animals.add(new Animal(new MapPosition(51, 20), Arrays.asList(1, 1, 1, 2, 1, 4, 1, 1)));
+        animals.add(new Animal(new MapPosition(16, 5), Arrays.asList(11, 3, 1, 6, 1, 6, 1, 1)));
+        animals.add(new Animal(new MapPosition(24, 18), Arrays.asList(1, 11, 1, 1, 1, 6, 1, 1)));
+        animals.add(new Animal(new MapPosition(27, 14), Arrays.asList(1, 6, 1, 11, 1, 1, 7, 1)));
+        animals.add(new Animal(new MapPosition(30, 21), Arrays.asList(1, 1, 1, 9, 1, 11, 1, 1)));
+        animals.add(new Animal(new MapPosition(4, 12), Arrays.asList(1, 1, 7, 1, 1, 11, 1, 1)));
 
         obstacles.putAll(animals.stream().collect(Collectors.toMap(Animal::getPosition, animal -> animal)));
     }
 
-    public void update(int date) {
-        synchroziationDate = date;
+    public void update() {
         cleanDeadAnimals();
         spawnGrass();
 
@@ -101,13 +97,13 @@ public class WorldMap {
                 obstacles.remove(targetPosition);
             } else if (targetElement instanceof Animal) {
                 if (animal.isAbleToReproduce()) {
-                    Animal children = animal.reproduce((Animal) targetElement, synchroziationDate); // WE CAN DO THAT BECAUSE WE CHECK CLASS EARLIER
+                    Animal children = animal.reproduce((Animal) targetElement); // WE CAN DO THAT BECAUSE WE CHECK CLASS EARLIER
                     childrens.add(children);
                 }
             }
         } else {
-            if (animal.canReproduceWithoutPartner(synchroziationDate)) {
-                Animal children = animal.reproduceWithoutPartner(synchroziationDate);
+            if (animal.canReproduceWithoutPartner()) {
+                Animal children = animal.reproduceWithoutPartner();
                 childrens.add(children);
             }
         }

@@ -13,16 +13,14 @@ public class Animal implements IMapElement {
     private MapPosition position;
 
     private int energy;
-    private int dateOfBirth;
 
-    public Animal(MapPosition bornPosition, List<Integer> inheritedGenes, int dateOfBirth) {
+    public Animal(MapPosition bornPosition, List<Integer> inheritedGenes) {
         position = bornPosition;
 
         genes = new ArrayList<>();
         genes.addAll(inheritedGenes);
 
         energy = 100;
-        this.dateOfBirth = dateOfBirth;
     }
 
     public void moveTo(MapPosition newPosition) {
@@ -35,16 +33,16 @@ public class Animal implements IMapElement {
         energy += 55;
     }
 
-    public Animal reproduce(Animal partner, int date) {
+    public Animal reproduce(Animal partner) {
         energy -= 55;
-        return new Animal(position, combineGenes(partner.genes), date);
+        return new Animal(position, combineGenes(partner.genes));
     }
 
-    public Animal reproduceWithoutPartner(int date){
+    public Animal reproduceWithoutPartner(){
         energy -= 80;
         List<Integer> childGenes = new ArrayList<>(genes);
         addMutation(childGenes);
-        return new Animal(position, childGenes, date);
+        return new Animal(position, childGenes);
     }
 
     private List<Integer> combineGenes(List<Integer> inputGenes) {
@@ -93,7 +91,7 @@ public class Animal implements IMapElement {
         return energy >= 60;
     }
 
-    public boolean canReproduceWithoutPartner(int date){
+    public boolean canReproduceWithoutPartner(){
         return energy >= 105;
     }
 
