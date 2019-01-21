@@ -165,14 +165,6 @@ public class WorldMap {
         return topRight;
     }
 
-    public MapPosition getJungleBottomLeft() {
-        return jungleBottomLeft;
-    }
-
-    public MapPosition getJungleTopRight() {
-        return jungleTopRight;
-    }
-
     public List<Animal> getAnimals() {
         return animals;
     }

@@ -43,6 +43,6 @@ public class GameEngine{
 
     private void displayInformation(){
         System.out.print(ansi().cursor(mainMap.getTopRight().getCordY() + 10, 0).
-                a(String.format("Dzień %s, populacja %s.", passedDays, mainMap.getAnimals().size())));
+                a(String.format("Dzień %s, populacja %s.    ", passedDays, mainMap.getAnimals().size())));
     }
 }
